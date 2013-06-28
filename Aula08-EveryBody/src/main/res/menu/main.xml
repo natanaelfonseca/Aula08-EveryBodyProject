@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_search"
+          android:title="@string/menu_search"
+          android:icon="@drawable/ic_menu_search"
+          android:showAsAction="ifRoom|collapseActionView"
+          android:actionViewClass="android.widget.SearchView" />
+
+    <item android:id="@+id/action_addfb"
+        android:title="@string/action_addfb"
+        android:orderInCategory="1"
+        android:showAsAction="collapseActionView"/>
+
+    <item android:id="@+id/action_addplus"
+          android:title="@string/action_addgplus"
+          android:orderInCategory="2"
+          android:showAsAction="collapseActionView"/>
+
+    <item android:id="@+id/action_addtwitter"
+          android:title="@string/action_addtwitter"
+          android:orderInCategory="3"
+          android:showAsAction="collapseActionView"/>
+
+    <item android:id="@+id/action_sync"
+          android:title="@string/syncnow"
+          android:orderInCategory="4"
+          android:showAsAction="collapseActionView" />
+</menu>

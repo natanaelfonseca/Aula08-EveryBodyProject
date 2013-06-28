@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+
+        <!-- API 14 theme customizations can go here. -->
+
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <!-- item name="android:backgroundStacked">@drawable/ab_background</item -->
+        <!-- item name="android:backgroundSplit">@drawable/ab_split_background</item -->
+    </style>
+
+</resources>
