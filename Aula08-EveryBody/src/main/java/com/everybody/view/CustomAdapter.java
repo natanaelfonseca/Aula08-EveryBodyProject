@@ -13,12 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.everybody.R;
 import com.everybody.model.Contact;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
-import com.everybody.R;
 
 /**
  * Created by Natanael Fonseca on 27/06/13.
