@@ -10,5 +10,9 @@
     <string name="syncnow">Sync. Now !</string>
     <string name="action_addtwitter">Add. Twitter</string>
     <string name="action_delete">Delete</string>
+    <string name="delete_dialog_ok">Sim</string>
+    <string name="delete_dialog_cancel">Cancelar</string>
+    <string name="delete_dialog">Esta açao ira modificar o contato existente no aparelho, voce esta certo disso ?</string>
+    <string name="confirm_delete_dialog">Perigo</string>
 
 </resources>

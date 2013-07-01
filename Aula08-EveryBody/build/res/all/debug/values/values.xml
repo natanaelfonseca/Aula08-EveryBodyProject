@@ -10,6 +10,10 @@
     <string name="action_delete">Delete</string>
     <string name="action_settings">Settings</string>
     <string name="app_name">EveryBody</string>
+    <string name="confirm_delete_dialog">Perigo</string>
+    <string name="delete_dialog">Esta açao ira modificar o contato existente no aparelho, voce esta certo disso ?</string>
+    <string name="delete_dialog_cancel">Cancelar</string>
+    <string name="delete_dialog_ok">Sim</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_search">Procurar</string>
     <string name="syncnow">Sync. Now !</string>

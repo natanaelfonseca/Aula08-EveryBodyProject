@@ -7,17 +7,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.everybody.R;
 import com.everybody.model.Contact;
 import com.everybody.model.DAOContact;
 import com.everybody.view.CustomAdapter;
+import com.everybody.view.DeleteDialog;
 
 import java.util.List;
 
 public class MainActivity extends ListActivity implements AdapterView.OnItemLongClickListener {
 
+    private DAOContact dao;
+    private ListView listView;
     private ActionMode mActionMode;
     private CustomCallBack mActionModeCallback = new CustomCallBack();
 
@@ -26,11 +31,12 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
 
         super.onCreate(savedInstanceState);
 
-        this.getListView().setOnItemLongClickListener(this);
+        listView = this.getListView();
+        listView.setOnItemLongClickListener(this);
 
-        List<Contact> contacts = new DAOContact( this ).getAll();
+        dao = new DAOContact( this );
+        List<Contact> contacts = dao.getAll();
         this.setListAdapter( new CustomAdapter( this, R.layout.main_contactrow, contacts ) );
-
     }
 
     @Override
@@ -49,6 +55,17 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
         mActionMode = this.startActionMode( mActionModeCallback );
         view.setSelected(true);
         return true;
+    }
+
+    public void doPositiveClick() {
+
+        Contact contact = (Contact) listView.getSelectedItem();
+        dao.delete( contact );
+
+        this.getListAdapter().notifyAll();
+    }
+
+    public void doNegativeClick() {
     }
 
     private class CustomCallBack implements ActionMode.Callback{
@@ -72,16 +89,23 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
         // Called when the user selects a contextual menu item
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            /*
+
             switch (item.getItemId()) {
-                case R.id.menu_share:
-                    shareCurrentItem();
+                case R.id.action_delete:
+                    deleteCurrentItem();
                     mode.finish(); // Action picked, so close the CAB
                     return true;
                 default:
                     return false;
-            }*/
-            return true;
+            }
+
+        }
+
+        public void deleteCurrentItem(){
+
+            DeleteDialog dDialog = new DeleteDialog();
+            dDialog.show( getFragmentManager(), "deleteDialog" );
+
         }
 
         // Called when the user exits the action mode
