@@ -7,8 +7,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.everybody.R;
@@ -26,6 +28,12 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
     private ActionMode mActionMode;
     private CustomCallBack mActionModeCallback = new CustomCallBack();
 
+
+    private int position;
+    private View row;
+    private List<Contact> contacts;
+    private Contact selectedContact;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,8 +43,9 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
         listView.setOnItemLongClickListener(this);
 
         dao = new DAOContact( this );
-        List<Contact> contacts = dao.getAll();
+        contacts = dao.getAll();
         this.setListAdapter( new CustomAdapter( this, R.layout.main_contactrow, contacts ) );
+
     }
 
     @Override
@@ -47,9 +56,15 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
         if (mActionMode != null) {
             return false;
         }
+
+
+        position = i;
+        row = view;
+        selectedContact = contacts.get( i );
 
         // Start the CAB using the ActionMode.Callback defined above
         mActionMode = this.startActionMode( mActionModeCallback );
@@ -57,15 +72,10 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
         return true;
     }
 
-    public void doPositiveClick() {
+    public void doDeleteSelectedContact() {
 
-        Contact contact = (Contact) listView.getSelectedItem();
-        dao.delete( contact );
-
-        this.getListAdapter().notifyAll();
-    }
-
-    public void doNegativeClick() {
+        dao.delete( selectedContact );
+        removeRow( row, position );
     }
 
     private class CustomCallBack implements ActionMode.Callback{
@@ -105,7 +115,6 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
 
             DeleteDialog dDialog = new DeleteDialog();
             dDialog.show( getFragmentManager(), "deleteDialog" );
-
         }
 
         // Called when the user exits the action mode
@@ -114,6 +123,38 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemLong
             mActionMode = null;
         }
 
+    }
+
+    private void removeRow(final View row, final int position) {
+        final int initialHeight = row.getHeight();
+        Animation animation = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                super.applyTransformation(interpolatedTime, t);
+                int newHeight = (int) (initialHeight * (1 - interpolatedTime));
+                if (newHeight > 0) {
+                    row.getLayoutParams().height = newHeight;
+                    row.requestLayout();
+                }
+            }
+        };
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                row.getLayoutParams().height = initialHeight;
+                row.requestLayout();
+                contacts.remove(position);
+                ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+            }
+        });
+        animation.setDuration(300);
+        row.startAnimation(animation);
     }
 
 }

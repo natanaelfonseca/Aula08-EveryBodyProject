@@ -1,12 +1,12 @@
 package com.everybody.view;
 
-import com.everybody.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.everybody.R;
 import com.everybody.controller.MainActivity;
 
 /**
@@ -24,14 +24,13 @@ public class DeleteDialog extends DialogFragment {
                 .setPositiveButton(R.string.delete_dialog_ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                ((MainActivity)getActivity()).doPositiveClick();
+                                ((MainActivity)getActivity()).doDeleteSelectedContact();
                             }
                         }
                 )
                 .setNegativeButton(R.string.delete_dialog_cancel,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                ((MainActivity)getActivity()).doNegativeClick();
                             }
                         }
                 )
